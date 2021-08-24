@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"target": "ES5",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"rootDir": ".",
+		"baseUrl": ".",
+		"strict": true,
+		"sourceMap": true,
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
+	},
+	"include": [
+		"./**/*.ts",
+		"./**/*.d.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}

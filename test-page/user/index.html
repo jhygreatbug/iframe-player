@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video</title>
+  <style>
+    body {
+      margin: auto;
+    }
+
+    ul {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .section {
+      margin-bottom: 12px;
+      padding: 0 12px;
+    }
+
+    .section__title {
+      color: #666
+    }
+
+    .iframe-input__line {
+      display: flex;
+    }
+
+    .iframe {
+      position: relative;
+      padding: 0;
+      padding-top: 56.25%;
+    }
+
+    #iframe {
+      top: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .events .section__list {
+      height: 140px;
+      font-family: monospace, 'Courier New', Courier;
+      font-size: 14px;
+      overflow: auto;
+    }
+
+    .controls .section__list>li {
+      display: flex;
+    }
+
+    .controls__left {
+      flex-grow: 1;
+    }
+
+    .controls__right {
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="section iframe-input">
+    <div class="section__title">Iframe</div>
+    <div class="iframe-input__line">
+      <input id="iframe-input" type="text" name="iframe">
+      <button id="iframe-button">go</button>
+    </div>
+  </div>
+  <div class="section iframe">
+    <iframe id="iframe" scrolling="no" frameborder="0" src="" allow="autoplay; fullscreen"
+      webkitallow="autoplay; fullscreen" mozallow="autoplay; fullscreen"></iframe>
+  </div>
+  <div class="section events">
+    <div class="section__title">Event</div>
+    <ul class="section__list"></ul>
+  </div>
+  <div class="section controls">
+    <div class="section__title">Controls</div>
+    <ul class="section__list"></ul>
+  </div>
+  <script crossorigin="anonymous" integrity="sha384-odQ2fsrmLLFFqugfvDsBEO0wZ9enzFjCquVGvj7I5yXSVuKCjNmrHfL3OzR4kpPF"
+    src="https://lib.baomitu.com/vConsole/3.3.4/vconsole.min.js"></script>
+  <script>
+    // init vConsole
+    var vConsole = new VConsole();
+  </script>
+</body>
+
+</html>

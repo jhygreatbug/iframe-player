@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "esnext"],
+    "target": "ES5",
+    "moduleResolution": "node",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "strict": true,
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "."
+  },
+  "include": [
+    "*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

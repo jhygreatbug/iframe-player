@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/provider",
+    "packages/user",
+    "packages/utils",
+    "packages/types",
+    "test-page/provider",
+    "test-page/user"
+  ],
+  "name": "iframe-player",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": "git@github.com:jhygreatbug/iframe-player.git",
+  "author": "greatbug <jhygreatbug@gmail.com>",
+  "license": "MIT"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "@iframe-player/types",
+  "version": "0.1.0",
+  "description": "iframe player types",
+  "main": "index.d.ts",
+  "repository": "git@github.com:jhygreatbug/iframe-player.git",
+  "author": "greatbug <jhygreatbug@gmail.com>",
+  "license": "MIT"
+}
