@@ -1,8 +1,14 @@
 {
+  "private": false,
   "name": "@iframe-player/user",
   "version": "0.1.0",
   "description": "iframe player user",
   "main": "dist/index.js",
+  "keywords": [
+    "iframe",
+    "player",
+    "video"
+  ],
   "repository": "git@github.com:jhygreatbug/iframe-player.git",
   "author": "greatbug <jhygreatbug@gmail.com>",
   "license": "MIT",
