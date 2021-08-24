@@ -6,17 +6,17 @@
 
 ## 播放器提供方
 
-### 开发
+### 如何接入
 
-接入方式一：使用 IframePlayerProvider 插件（推荐）
+方式一：使用 IframePlayerProvider 插件（推荐）
 
-使用 IframePlayerProvider 插件，能够快速接入交互能力。插件的使用方式参照 [IframePlayerProvider 文档](path/to/provider) 。
+使用 IframePlayerProvider 插件，能够快速接入交互能力。插件的使用方式参照 [IframePlayerProvider 文档](./packages/provider/README.md) 。
 
-接入方式二：按照通信协议自主实现交互能力
+方式二：按照通信协议自主实现交互能力
 
-参见 [iframe 播放器通信协议](path/to/protocol) 。
+参见 [iframe 播放器通信协议](./docs/protocol.md) 。
 
-### 测试
+### 调试
 
 `cd test-page/user && yarn serve`
 
@@ -24,18 +24,22 @@
 
 ## 播放器使用方
 
-### 开发
+### 如何接入
 
-接入方式一：使用 IframePlayer 插件（推荐）
+方式一：使用 IframePlayer 插件（推荐）
 
-使用 IframePlayer 插件，能够快速接入交互能力。插件的使用方式参照 [IframePlayer 文档](path/to/user) 。
+使用 IframePlayer 插件，能够快速接入交互能力。插件的使用方式参照 [IframePlayer 文档](./packages/user/README.md) 。
 
-接入方式二：按照通信协议自主实现交互能力
+方式二：按照通信协议自主实现交互能力
 
-参见 [iframe 播放器通信协议](path/to/protocol) 。
+参见 [iframe 播放器通信协议](./docs/protocol.md) 。
 
-### 测试
+### 调试
 
 `cd test-page/provider && yarn serve`
 
 使用打开的链接作为测试播放器的url
+
+## 开发
+
+参见 [DEV.md](./DEV.md)
