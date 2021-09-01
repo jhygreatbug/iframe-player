@@ -3,11 +3,11 @@ import type {
 	TPlayerSetMutedData,
 	TPlayerSetPresentationModeData,
 } from '@iframe-player/types';
-import { isPlayerEventData } from '@iframe-player/utils';
+import { isPlayerEventData, parseUrlSearchParams } from '@iframe-player/utils';
 
 // 插件的所有行为对应的方法
 const playerActions = {
-	setPlay(this: PlayerAgent) {
+	setPlay(this: IframePlayerProvider) {
 		const res = this.config.$video.play();
 		if (typeof Promise !== "undefined" && Promise.toString().indexOf("[native code]") !== -1) {
 			res.then(() => {
@@ -30,17 +30,17 @@ const playerActions = {
 			});
 		}
 	},
-	setPause(this: PlayerAgent) {
+	setPause(this: IframePlayerProvider) {
 		this.config.$video.pause();
 	},
-	setMuted(this: PlayerAgent, value: TPlayerSetMutedData['value']) {
+	setMuted(this: IframePlayerProvider, value: TPlayerSetMutedData['value']) {
 		if (!value || !('muted' in value)) {
 			return;
 		}
 		this.config.$video.muted = value.muted;
 	},
 	setPresentationMode(
-		this: PlayerAgent,
+		this: IframePlayerProvider,
 		value: TPlayerSetPresentationModeData['value'],
 	) {
 		if (!value || !('presentationMode' in value)) {
@@ -48,25 +48,25 @@ const playerActions = {
 		}
 		this.config.$video.webkitSetPresentationMode(value.presentationMode);
 	},
-	getDuration(this: PlayerAgent) {
+	getDuration(this: IframePlayerProvider) {
 		this.postVideoMessage({
 			eventType: 'reply-get-duration',
 			value: { seconds: this.config.$video.duration },
 		});
 	},
-	getCurrentTime(this: PlayerAgent) {
+	getCurrentTime(this: IframePlayerProvider) {
 		this.postVideoMessage({
 			eventType: 'reply-get-current-time',
 			value: { seconds: this.config.$video.currentTime },
 		});
 	},
-	getMuted(this: PlayerAgent) {
+	getMuted(this: IframePlayerProvider) {
 		this.postVideoMessage({
 			eventType: 'reply-get-muted',
 			value: { muted: this.config.$video.muted },
 		});
 	},
-	getPresentationMode(this: PlayerAgent) {
+	getPresentationMode(this: IframePlayerProvider) {
 		this.postVideoMessage({
 			eventType: 'reply-get-presentation-mode',
 			value: {
@@ -74,31 +74,31 @@ const playerActions = {
 			},
 		});
 	},
-	canPlay(this: PlayerAgent) {
+	canPlay(this: IframePlayerProvider) {
 		this.postVideoMessage({
 			eventType: 'can-play',
 			value: null,
 		});
 	},
-	pause(this: PlayerAgent) {
+	pause(this: IframePlayerProvider) {
 		this.postVideoMessage({
 			eventType: 'pause',
 			value: null,
 		});
 	},
-	play(this: PlayerAgent) {
+	play(this: IframePlayerProvider) {
 		this.postVideoMessage({
 			eventType: 'play',
 			value: null,
 		});
 	},
-	ended(this: PlayerAgent) {
+	ended(this: IframePlayerProvider) {
 		this.postVideoMessage({
 			eventType: 'ended',
 			value: null,
 		});
 	},
-	timeUpdate(this: PlayerAgent) {
+	timeUpdate(this: IframePlayerProvider) {
 		this.postVideoMessage({
 			eventType: 'time-update',
 			value: {
@@ -106,7 +106,7 @@ const playerActions = {
 			},
 		});
 	},
-	volumeChange(this: PlayerAgent) {
+	volumeChange(this: IframePlayerProvider) {
 		this.postVideoMessage({
 			eventType: 'volume-change',
 			value: {
@@ -115,7 +115,7 @@ const playerActions = {
 			},
 		});
 	},
-	presentationModeChanged(this: PlayerAgent) {
+	presentationModeChanged(this: IframePlayerProvider) {
 		this.postVideoMessage({
 			eventType: 'presentation-mode-changed',
 			value: {
@@ -123,7 +123,7 @@ const playerActions = {
 			},
 		});
 	},
-	error(this: PlayerAgent, error: Error) {
+	error(this: IframePlayerProvider, error: Error) {
 		this.postVideoMessage({
 			eventType: 'error',
 			value: {
@@ -133,26 +133,42 @@ const playerActions = {
 	},
 };
 
-interface IPlayerAgentConfig {
+interface IframePlayerProviderConfig {
 	$video: HTMLVideoElement;
 	targetWindow: Window;
+	controls?: boolean;
 	actions?: Partial<typeof playerActions>;
 }
 
-export default class PlayerAgent {
-	config: IPlayerAgentConfig;
+export default class IframePlayerProvider {
+	config: IframePlayerProviderConfig;
 	actions: typeof playerActions;
-	constructor(config: IPlayerAgentConfig) {
+	constructor(config: IframePlayerProviderConfig) {
 		this.config = { ...config };
 		this.actions = { ...playerActions };
 
-		if (!(config.$video instanceof HTMLVideoElement)) {
+		const $video = config.$video;
+
+		if (!($video instanceof HTMLVideoElement)) {
 			playerActions.error.call(
 				this,
 				new TypeError(`config.$video 不是 HTMLVideoElement 实例; ${
 					Object.prototype.toString.call(config.$video)
 				}`),
 			);
+		}
+
+		// video 元素 controls属性相关规则:
+		// 1. 优先取决于配置项：controls=true ，video 增加 controls 属性；controls=false ，video 移除 controls 属性；
+		// 2. 其次取决于 url search params：controls=0，移除 controls属性；
+		// 3. 不满足以上情况，不做处理。
+		const controls = typeof config.controls === 'undefined'
+			? parseUrlSearchParams(location.search).controls !== '0'
+			: config.controls;
+		if (controls) {
+			$video.setAttribute('controls', 'controls');
+		} else {
+			$video.removeAttribute('controls');
 		}
 
 		const configActions = config.actions ?? {};
@@ -168,8 +184,6 @@ export default class PlayerAgent {
 			const key = refKey as keyof typeof playerActions;
 			this.actions[key as 'setPlay'] = configActions[key] as typeof playerActions.setPlay;
 		});
-
-		const { $video } = config;
 
 		const playerActionsKeys = [
 			'canPlay',

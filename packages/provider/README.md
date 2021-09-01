@@ -58,8 +58,16 @@ var player = new IframePlayerProvider(config);
 var config = {
   // video 元素
   $video: $video,
+
   // 父级页面的window对象
   targetWindow: window.parent,
+
+	// video 元素 controls属性相关规则:
+	// 1. 优先取决于配置项：controls=true ，video 增加 controls 属性；controls=false ，video 移除 controls 属性；
+	// 2. 其次取决于 url search params：controls=0，移除 controls属性；
+	// 3. 不满足以上情况，不做处理。
+	controls: true,
+
   // 利用actions配置，能够覆盖插件原本的行为
   // 这个配置会覆盖 index.ts: playerActions 对象对应的方法
   // 如果没有自定义插件行为的需要，可以忽略这项配置
@@ -75,3 +83,10 @@ var config = {
   }
 };
 ```
+
+## 更新日志
+
+2021-09-11
+
+- 增加对 video 元素 controls 属性的控制支持
+- 优化内部命名

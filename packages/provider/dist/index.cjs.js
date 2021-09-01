@@ -33,6 +33,33 @@ function isObject(value) {
 var isPlayerEventData = function (data) {
     return isObject(data) && ('eventType' in data);
 };
+var getDecodeURIComponent = function (s) {
+    try {
+        return decodeURIComponent(s);
+    }
+    catch (_a) {
+        return s;
+    }
+};
+function parseUrlSearchParams(search) {
+    var params = search.replace(/^\?/, '').split('&');
+    var result = {};
+    params.forEach(function (item) {
+        if (!item) {
+            return;
+        }
+        var eqIndex = item.indexOf('=');
+        if (eqIndex === -1) {
+            var key_1 = getDecodeURIComponent(item);
+            result[key_1] = '';
+            return;
+        }
+        var key = getDecodeURIComponent(item.slice(0, eqIndex));
+        var val = getDecodeURIComponent(item.slice(eqIndex + 1));
+        result[key] = val;
+    });
+    return result;
+}
 
 // 插件的所有行为对应的方法
 var playerActions = {
@@ -160,14 +187,28 @@ var playerActions = {
         });
     },
 };
-var PlayerAgent = /** @class */ (function () {
-    function PlayerAgent(config) {
+var IframePlayerProvider = /** @class */ (function () {
+    function IframePlayerProvider(config) {
         var _this = this;
         var _a;
         this.config = __assign({}, config);
         this.actions = __assign({}, playerActions);
-        if (!(config.$video instanceof HTMLVideoElement)) {
+        var $video = config.$video;
+        if (!($video instanceof HTMLVideoElement)) {
             playerActions.error.call(this, new TypeError("config.$video \u4E0D\u662F HTMLVideoElement \u5B9E\u4F8B; " + Object.prototype.toString.call(config.$video)));
+        }
+        // video 元素 controls属性相关规则:
+        // 1. 优先取决于配置项：controls=true ，video 增加 controls 属性；controls=false ，video 移除 controls 属性；
+        // 2. 其次取决于 url search params：controls=0，移除 controls属性；
+        // 3. 不满足以上情况，不做处理。
+        var controls = typeof config.controls === 'undefined'
+            ? parseUrlSearchParams(location.search).controls !== '0'
+            : config.controls;
+        if (controls) {
+            $video.setAttribute('controls', 'controls');
+        }
+        else {
+            $video.removeAttribute('controls');
         }
         var configActions = (_a = config.actions) !== null && _a !== void 0 ? _a : {};
         Object.keys(configActions).forEach(function (refKey) {
@@ -179,7 +220,6 @@ var PlayerAgent = /** @class */ (function () {
             var key = refKey;
             _this.actions[key] = configActions[key];
         });
-        var $video = config.$video;
         var playerActionsKeys = [
             'canPlay',
             'pause',
@@ -235,10 +275,10 @@ var PlayerAgent = /** @class */ (function () {
             }
         }, false);
     }
-    PlayerAgent.prototype.postVideoMessage = function (data) {
+    IframePlayerProvider.prototype.postVideoMessage = function (data) {
         this.config.targetWindow.postMessage(data, '*');
     };
-    return PlayerAgent;
+    return IframePlayerProvider;
 }());
 
-module.exports = PlayerAgent;
+module.exports = IframePlayerProvider;

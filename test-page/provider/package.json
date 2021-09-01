@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@iframe-player/test-page-provider",
-  "version": "1.0.0",
+  "version": "0.1.2",
   "main": "index.ts",
   "repository": "git@github.com:jhygreatbug/iframe-player.git",
   "author": "greatbug <jhygreatbug@gmail.com>",
