@@ -11,13 +11,11 @@ function init(src: string) {
 	player = new IframePlayer({
 		target: $iframe,
 		playUrl: src,
+		autoPlay: true,
+		allowMutedAutoPlay: true,
 		// controls: false,
 	});
-	// player.beforePostMessage((ev, v, next) => {
-	// 	if (ev === 'set-play') {
-	// 		next(typeof v === 'number' ? v + 1 : 1);
-	// 	}
-	// })
+	(window as any).player = player;
 
 	const events: TResponseEventType[] = [
 		'can-play',
