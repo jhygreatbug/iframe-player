@@ -210,38 +210,38 @@ export default class IframePlayerProvider {
 
 				switch (data.eventType) {
 					case 'set-play': {
-						playerActions.setPlay.call(this);
+						this.actions.setPlay.call(this);
 						break;
 					}
 					case 'set-pause': {
-						playerActions.setPause.call(this);
+						this.actions.setPause.call(this);
 						break;
 					}
 					case 'set-muted': {
-						playerActions.setMuted.call(this, data.value);
+						this.actions.setMuted.call(this, data.value);
 						break;
 					}
 					case 'set-presentation-mode': {
-						playerActions.setPresentationMode.call(
+						this.actions.setPresentationMode.call(
 							this,
 							data.value,
 						);
 						break;
 					}
 					case 'get-duration': {
-						playerActions.getDuration.call(this);
+						this.actions.getDuration.call(this);
 						break;
 					}
 					case 'get-current-time': {
-						playerActions.getCurrentTime.call(this);
+						this.actions.getCurrentTime.call(this);
 						break;
 					}
 					case 'get-muted': {
-						playerActions.getMuted.call(this);
+						this.actions.getMuted.call(this);
 						break;
 					}
 					case 'get-presentation-mode': {
-						playerActions.getPresentationMode.call(this);
+						this.actions.getPresentationMode.call(this);
 						break;
 					}
 					default:

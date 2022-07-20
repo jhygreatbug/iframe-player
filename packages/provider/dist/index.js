@@ -239,35 +239,35 @@ var IframePlayerProvider = /** @class */ (function () {
             }
             switch (data.eventType) {
                 case 'set-play': {
-                    playerActions.setPlay.call(_this);
+                    _this.actions.setPlay.call(_this);
                     break;
                 }
                 case 'set-pause': {
-                    playerActions.setPause.call(_this);
+                    _this.actions.setPause.call(_this);
                     break;
                 }
                 case 'set-muted': {
-                    playerActions.setMuted.call(_this, data.value);
+                    _this.actions.setMuted.call(_this, data.value);
                     break;
                 }
                 case 'set-presentation-mode': {
-                    playerActions.setPresentationMode.call(_this, data.value);
+                    _this.actions.setPresentationMode.call(_this, data.value);
                     break;
                 }
                 case 'get-duration': {
-                    playerActions.getDuration.call(_this);
+                    _this.actions.getDuration.call(_this);
                     break;
                 }
                 case 'get-current-time': {
-                    playerActions.getCurrentTime.call(_this);
+                    _this.actions.getCurrentTime.call(_this);
                     break;
                 }
                 case 'get-muted': {
-                    playerActions.getMuted.call(_this);
+                    _this.actions.getMuted.call(_this);
                     break;
                 }
                 case 'get-presentation-mode': {
-                    playerActions.getPresentationMode.call(_this);
+                    _this.actions.getPresentationMode.call(_this);
                     break;
                 }
             }
