@@ -10,6 +10,7 @@
     "serve": "webpack serve --open"
   },
   "devDependencies": {
+    "core-js": "^3.23.5",
     "html-webpack-plugin": "^5.0.0-beta.4",
     "http-server": "^0.12.3",
     "ts-loader": "^8.0.14",

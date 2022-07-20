@@ -19,6 +19,6 @@
     "webpack-dev-server": "^3.11.1"
   },
   "dependencies": {
-    "@iframe-player/provider": "0.1.0"
+    "core-js": "^3.23.5"
   }
 }

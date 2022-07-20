@@ -1,9 +1,12 @@
 import type { TResponseEventType } from '@iframe-player/types';
 import IframePlayer from '@iframe-player/user';
+import 'core-js/web/url-search-params';
+import 'core-js/es/promise';
 
 const $iframe = document.getElementById('iframe') as HTMLIFrameElement;
 let player: IframePlayer | null = null;
 function init(src: string) {
+	console.log('init', src)
 	$iframe.src = src;
 	if (player) {
 		player.destroy();
@@ -47,7 +50,6 @@ const $iframeGoButton = document.getElementById(
 ) as HTMLButtonElement;
 const searchParams = new URLSearchParams(window.location.search);
 const initSrc = searchParams.get('src') ?? '';
-console.log('initSrc', initSrc);
 if (initSrc) {
 	$iframeInput.value = initSrc;
 	init(initSrc);
@@ -129,6 +131,6 @@ controls.forEach(({ eventType, values, promise }) => {
 			}
 		},
 	);
-	$fragment.append($li);
+	$fragment.appendChild($li);
 });
-$controlsContainer.append($fragment);
+$controlsContainer.appendChild($fragment);
