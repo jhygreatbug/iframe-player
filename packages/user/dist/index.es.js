@@ -116,9 +116,15 @@ var IframePlayer = /** @class */ (function () {
             onMessage(_this, ev);
         };
         window.addEventListener('message', this.onMessageHandler);
+        var firstCanPlay = true;
         this.on('can-play', function () {
+            if (!firstCanPlay) {
+                return;
+            }
+            firstCanPlay = false;
             // can-play触发前配置可能被修改，所以在can-play触发后再判断
             if (_this.config.autoPlay) {
+                // todo: 提供专门的自动播放方法
                 _this.setPlay().then(function (_a) {
                     var resolved = _a.resolved;
                     if (resolved) {

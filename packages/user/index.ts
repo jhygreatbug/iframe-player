@@ -117,9 +117,16 @@ export default class IframePlayer {
 		}
 		window.addEventListener('message', this.onMessageHandler);
 
+		let firstCanPlay = true;
+
 		this.on('can-play', () => {
+			if (!firstCanPlay) {
+				return
+			}
+			firstCanPlay = false;
 			// can-play触发前配置可能被修改，所以在can-play触发后再判断
 			if (this.config.autoPlay) {
+				// todo: 提供专门的自动播放方法
 				this.setPlay().then(({ resolved }) => {
 					if (resolved) {
 						return;
