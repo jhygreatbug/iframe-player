@@ -14,8 +14,8 @@ function init(src: string) {
 	player = new IframePlayer({
 		target: $iframe,
 		playUrl: src,
-		autoPlay: true,
-		allowMutedAutoPlay: true,
+		// autoPlay: true,
+		// allowMutedAutoPlay: true,
 		// controls: false,
 	});
 	(window as any).player = player;

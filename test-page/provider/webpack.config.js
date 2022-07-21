@@ -7,6 +7,7 @@ module.exports = {
 	watch: true,
 	entry: `./index.ts`,
 	output: {
+		publicPath: '',
 		filename: `index.js`,
 		path: path.resolve(__dirname, `dist/`),
 	},
