@@ -70,7 +70,13 @@ function getAttr(instance: IframePlayer, attr: string) {
 	});
 }
 
-function onMessage(instance: IframePlayer, { data }: MessageEvent) {
+function onMessage(instance: IframePlayer, { data: refData }: MessageEvent) {
+	let data: Object = refData;
+	try {
+		if (typeof data === 'string') {
+			data = JSON.parse(refData)
+		}
+	} catch {}
 	// todo: 判断是哪个实例
 	if (!isPlayerEventData(data)) {
 		return;
@@ -166,7 +172,7 @@ export default class IframePlayer {
 		const next = (ev: T, v: unknown, hooksIndex: number) => {
 			if (hooksIndex === this.beforePostHooks.length) {
 				this.$iframe.contentWindow?.postMessage(
-					{ eventType: ev, value: v },
+					JSON.stringify({ eventType: ev, value: v }),
 					this.config.playUrl,
 				);
 				return;

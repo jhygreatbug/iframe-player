@@ -62,7 +62,7 @@ var IframePlayer = (function () {
     var defaultConfig = {
         autoPlay: false,
         allowMutedAutoPlay: false,
-        controls: true,
+        controls: true
     };
     var getInitMap = function (keys) {
         var map = {};
@@ -86,7 +86,14 @@ var IframePlayer = (function () {
         });
     }
     function onMessage(instance, _a) {
-        var data = _a.data;
+        var refData = _a.data;
+        var data = refData;
+        try {
+            if (typeof data === 'string') {
+                data = JSON.parse(refData);
+            }
+        }
+        catch (_b) { }
         // todo: 判断是哪个实例
         if (!isPlayerEventData(data)) {
             return;
@@ -164,7 +171,7 @@ var IframePlayer = (function () {
             var next = function (ev, v, hooksIndex) {
                 var _a;
                 if (hooksIndex === _this.beforePostHooks.length) {
-                    (_a = _this.$iframe.contentWindow) === null || _a === void 0 ? void 0 : _a.postMessage({ eventType: ev, value: v }, _this.config.playUrl);
+                    (_a = _this.$iframe.contentWindow) === null || _a === void 0 ? void 0 : _a.postMessage(JSON.stringify({ eventType: ev, value: v }), _this.config.playUrl);
                     return;
                 }
                 var hook = _this.beforePostHooks[hooksIndex];

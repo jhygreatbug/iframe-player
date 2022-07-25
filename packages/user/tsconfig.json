@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["dom", "esnext"],
-    "target": "ES5",
+    "target": "ES3",
     "moduleResolution": "node",
     "rootDir": ".",
     "baseUrl": ".",
