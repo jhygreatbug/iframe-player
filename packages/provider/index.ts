@@ -203,7 +203,13 @@ export default class IframePlayerProvider {
 
 		window.addEventListener(
 			'message',
-			({ data }) => {
+			({ data: refData }) => {
+				let data: Object = refData;
+				try {
+					if (typeof data === 'string') {
+						data = JSON.parse(refData)
+					}
+				} catch {}
 				if (!isPlayerEventData(data)) {
 					return;
 				}
@@ -253,6 +259,6 @@ export default class IframePlayerProvider {
 	}
 
 	postVideoMessage(data: TPlayerEventData) {
-		this.config.targetWindow.postMessage(data, '*');
+		this.config.targetWindow.postMessage(JSON.stringify(data), '*');
 	}
 }

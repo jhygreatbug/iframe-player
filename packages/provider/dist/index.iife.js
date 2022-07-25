@@ -71,13 +71,12 @@ var IframePlayerProvider = (function () {
                 res.then(function () {
                     _this.postVideoMessage({
                         eventType: 'reply-set-play',
-                        value: { resolved: true },
+                        value: { resolved: true }
                     });
-                })
-                    .catch(function () {
+                })["catch"](function () {
                     _this.postVideoMessage({
                         eventType: 'reply-set-play',
-                        value: { resolved: false },
+                        value: { resolved: false }
                     });
                 });
             }
@@ -85,7 +84,7 @@ var IframePlayerProvider = (function () {
                 var paused = this.config.$video.paused;
                 this.postVideoMessage({
                     eventType: 'reply-set-play',
-                    value: { resolved: !paused },
+                    value: { resolved: !paused }
                 });
             }
         },
@@ -107,59 +106,59 @@ var IframePlayerProvider = (function () {
         getDuration: function () {
             this.postVideoMessage({
                 eventType: 'reply-get-duration',
-                value: { seconds: this.config.$video.duration },
+                value: { seconds: this.config.$video.duration }
             });
         },
         getCurrentTime: function () {
             this.postVideoMessage({
                 eventType: 'reply-get-current-time',
-                value: { seconds: this.config.$video.currentTime },
+                value: { seconds: this.config.$video.currentTime }
             });
         },
         getMuted: function () {
             this.postVideoMessage({
                 eventType: 'reply-get-muted',
-                value: { muted: this.config.$video.muted },
+                value: { muted: this.config.$video.muted }
             });
         },
         getPresentationMode: function () {
             this.postVideoMessage({
                 eventType: 'reply-get-presentation-mode',
                 value: {
-                    presentationMode: this.config.$video.webkitPresentationMode,
-                },
+                    presentationMode: this.config.$video.webkitPresentationMode
+                }
             });
         },
         canPlay: function () {
             this.postVideoMessage({
                 eventType: 'can-play',
-                value: null,
+                value: null
             });
         },
         pause: function () {
             this.postVideoMessage({
                 eventType: 'pause',
-                value: null,
+                value: null
             });
         },
         play: function () {
             this.postVideoMessage({
                 eventType: 'play',
-                value: null,
+                value: null
             });
         },
         ended: function () {
             this.postVideoMessage({
                 eventType: 'ended',
-                value: null,
+                value: null
             });
         },
         timeUpdate: function () {
             this.postVideoMessage({
                 eventType: 'time-update',
                 value: {
-                    currentTime: this.config.$video.currentTime,
-                },
+                    currentTime: this.config.$video.currentTime
+                }
             });
         },
         volumeChange: function () {
@@ -167,26 +166,26 @@ var IframePlayerProvider = (function () {
                 eventType: 'volume-change',
                 value: {
                     volume: this.config.$video.volume,
-                    muted: this.config.$video.muted,
-                },
+                    muted: this.config.$video.muted
+                }
             });
         },
         presentationModeChanged: function () {
             this.postVideoMessage({
                 eventType: 'presentation-mode-changed',
                 value: {
-                    presentationMode: this.config.$video.webkitPresentationMode,
-                },
+                    presentationMode: this.config.$video.webkitPresentationMode
+                }
             });
         },
         error: function (error) {
             this.postVideoMessage({
                 eventType: 'error',
                 value: {
-                    message: error.name + ": " + error.message,
-                },
+                    message: error.name + ": " + error.message
+                }
             });
-        },
+        }
     };
     var IframePlayerProvider = /** @class */ (function () {
         function IframePlayerProvider(config) {
@@ -236,7 +235,14 @@ var IframePlayerProvider = (function () {
                 });
             });
             window.addEventListener('message', function (_a) {
-                var data = _a.data;
+                var refData = _a.data;
+                var data = refData;
+                try {
+                    if (typeof data === 'string') {
+                        data = JSON.parse(refData);
+                    }
+                }
+                catch (_b) { }
                 if (!isPlayerEventData(data)) {
                     return;
                 }
@@ -277,7 +283,7 @@ var IframePlayerProvider = (function () {
             }, false);
         }
         IframePlayerProvider.prototype.postVideoMessage = function (data) {
-            this.config.targetWindow.postMessage(data, '*');
+            this.config.targetWindow.postMessage(JSON.stringify(data), '*');
         };
         return IframePlayerProvider;
     }());
