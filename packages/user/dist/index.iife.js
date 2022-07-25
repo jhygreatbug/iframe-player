@@ -88,12 +88,12 @@ var IframePlayer = (function () {
     function onMessage(instance, _a) {
         var refData = _a.data;
         var data = refData;
-        try {
-            if (typeof data === 'string') {
+        if (typeof data === 'string' && instance.config.postStringMessage) {
+            try {
                 data = JSON.parse(refData);
             }
+            catch (_b) { }
         }
-        catch (_b) { }
         // todo: 判断是哪个实例
         if (!isPlayerEventData(data)) {
             return;

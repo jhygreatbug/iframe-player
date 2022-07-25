@@ -8,6 +8,7 @@ export interface IPlayerConfig {
 	autoPlay?: boolean;
 	allowMutedAutoPlay?: boolean;
 	timeout?: number;
+	postStringMessage: boolean;
 }
 
 // todo: 去掉any
@@ -72,11 +73,11 @@ function getAttr(instance: IframePlayer, attr: string) {
 
 function onMessage(instance: IframePlayer, { data: refData }: MessageEvent) {
 	let data: Object = refData;
-	try {
-		if (typeof data === 'string') {
+	if (typeof data === 'string' && instance.config.postStringMessage) {
+		try {
 			data = JSON.parse(refData)
-		}
-	} catch {}
+		} catch {}
+	}
 	// todo: 判断是哪个实例
 	if (!isPlayerEventData(data)) {
 		return;
