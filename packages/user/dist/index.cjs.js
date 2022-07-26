@@ -170,7 +170,11 @@ var IframePlayer = /** @class */ (function () {
         var next = function (ev, v, hooksIndex) {
             var _a;
             if (hooksIndex === _this.beforePostHooks.length) {
-                (_a = _this.$iframe.contentWindow) === null || _a === void 0 ? void 0 : _a.postMessage(JSON.stringify({ eventType: ev, value: v }), _this.config.playUrl);
+                var data = { eventType: ev, value: v };
+                if (_this.config.postStringMessage) {
+                    data = JSON.stringify(data);
+                }
+                (_a = _this.$iframe.contentWindow) === null || _a === void 0 ? void 0 : _a.postMessage(data, _this.config.playUrl);
                 return;
             }
             var hook = _this.beforePostHooks[hooksIndex];

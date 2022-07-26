@@ -6,7 +6,7 @@ export interface IPlayerConfig {
     autoPlay?: boolean;
     allowMutedAutoPlay?: boolean;
     timeout?: number;
-    postStringMessage: boolean;
+    postStringMessage?: boolean;
 }
 declare type TCallbackMap = {
     [key: string]: Array<(data: any) => void>;

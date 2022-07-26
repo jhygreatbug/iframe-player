@@ -8,7 +8,7 @@ export interface IPlayerConfig {
 	autoPlay?: boolean;
 	allowMutedAutoPlay?: boolean;
 	timeout?: number;
-	postStringMessage: boolean;
+	postStringMessage?: boolean;
 }
 
 // todo: 去掉any
@@ -172,8 +172,12 @@ export default class IframePlayer {
 	iframePostMessage<T extends TPlayerEventType>(eventType: T, value?: unknown) {
 		const next = (ev: T, v: unknown, hooksIndex: number) => {
 			if (hooksIndex === this.beforePostHooks.length) {
+				let data: Object | string = { eventType: ev, value: v };
+				if (this.config.postStringMessage) {
+					data = JSON.stringify(data);
+				}
 				this.$iframe.contentWindow?.postMessage(
-					JSON.stringify({ eventType: ev, value: v }),
+					data,
 					this.config.playUrl,
 				);
 				return;
