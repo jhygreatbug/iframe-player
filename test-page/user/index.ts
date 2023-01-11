@@ -1,5 +1,6 @@
 import type { TResponseEventType } from '@iframe-player/types';
-import IframePlayer from '@iframe-player/user';
+// import IframePlayer from '@iframe-player/user';
+import IframePlayer from '@iframe-player/user'
 import 'core-js/web/url-search-params';
 import 'core-js/es/promise';
 
@@ -11,14 +12,15 @@ function init(src: string) {
 	if (player) {
 		player.destroy();
 	}
-	player = new IframePlayer({
+	const config = {
 		target: $iframe,
 		playUrl: src,
 		postStringMessage: false,
 		// autoPlay: true,
 		// allowMutedAutoPlay: true,
 		// controls: false,
-	});
+	}
+	player = new IframePlayer(config);
 	(window as any).player = player;
 
 	const events: TResponseEventType[] = [
@@ -30,6 +32,9 @@ function init(src: string) {
 		'volume-change',
 		'presentation-mode-changed',
 		'error',
+		'seeking',
+		'seeked',
+		'rate-change',
 	];
 	events.forEach(event => {
 		player!.on(event, (value: unknown) => {
@@ -85,6 +90,7 @@ const controls = [
 	{ eventType: 'getCurrentTime', promise: true },
 	{ eventType: 'getMuted', promise: true },
 	{ eventType: 'getPresentationMode', promise: true },
+	{ eventType: 'getPlaybackRate', promise: true }
 ];
 const $controlsContainer = document.querySelector(
 	'.controls .section__list',
@@ -125,10 +131,11 @@ controls.forEach(({ eventType, values, promise }) => {
 						type === 'checkbox' ? $dom.checked : $dom.value;
 				});
 			}
+			
 			// @ts-expect-error
 			const res = await player[eventType](value);
 			if (promise) {
-				console.log(res);
+				console.log('88', res);
 			}
 		},
 	);

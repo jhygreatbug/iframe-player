@@ -37,6 +37,7 @@ export default class IframePlayer {
     getCurrentTime(): Promise<unknown>;
     getMuted(): Promise<unknown>;
     getPresentationMode(): Promise<unknown>;
+    getPlaybackRate(): Promise<unknown>;
     consumer(eventType: string, value: unknown): void;
     on(eventType: string, cb: (value: unknown) => void): void;
     off(eventType: string, cb?: (value: unknown) => void): void;

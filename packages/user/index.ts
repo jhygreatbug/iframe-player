@@ -28,6 +28,7 @@ const replyEvents = [
 	'reply-get-current-time',
 	'reply-get-muted',
 	'reply-get-presentation-mode',
+	'reply-get-playbackRate'
 ];
 
 // todo
@@ -40,6 +41,9 @@ const messageEvents = [
 	'volume-change',
 	'presentation-mode-changed',
 	'error',
+	'seeking',
+	'seeked',
+	'rate-change'
 ];
 
 const defaultConfig = {
@@ -64,6 +68,8 @@ function getAttr(instance: IframePlayer, attr: string) {
 		const timer = setTimeout(() => {
 			resolve(void 0);
 		}, REPLY_TIMEOUT);
+		console.log('进入等待队列');
+		
 		instance.waitQueueMap[`reply-get-${attr}`].push((data: unknown) => {
 			resolve(data);
 			clearTimeout(timer);
@@ -73,12 +79,11 @@ function getAttr(instance: IframePlayer, attr: string) {
 
 function onMessage(instance: IframePlayer, { data: refData }: MessageEvent) {
 	let data: Object = refData;
-	if (typeof data === 'string' && instance.config.postStringMessage) {
+	if (typeof data === 'string') {
 		try {
 			data = JSON.parse(refData)
 		} catch {}
 	}
-	// todo: 判断是哪个实例
 	if (!isPlayerEventData(data)) {
 		return;
 	}
@@ -122,6 +127,7 @@ export default class IframePlayer {
 		this.onMessageHandler = ev => {
 			onMessage(this, ev);
 		}
+		
 		window.addEventListener('message', this.onMessageHandler);
 
 		let firstCanPlay = true;
@@ -234,6 +240,10 @@ export default class IframePlayer {
 
 	getPresentationMode() {
 		return getAttr(this, 'presentation-mode');
+	}
+
+	getPlaybackRate() {
+		return getAttr(this, 'playbackRate');
 	}
 
 	consumer(eventType: string, value: unknown) {
