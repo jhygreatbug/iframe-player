@@ -73,7 +73,7 @@ function getAttr(instance: IframePlayer, attr: string) {
 
 function onMessage(instance: IframePlayer, { data: refData }: MessageEvent) {
 	let data: Object = refData;
-	if (typeof data === 'string' && instance.config.postStringMessage) {
+	if (typeof data === 'string') {
 		try {
 			data = JSON.parse(refData)
 		} catch {}

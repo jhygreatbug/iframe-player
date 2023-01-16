@@ -88,7 +88,7 @@ var IframePlayer = (function () {
     function onMessage(instance, _a) {
         var refData = _a.data;
         var data = refData;
-        if (typeof data === 'string' && instance.config.postStringMessage) {
+        if (typeof data === 'string') {
             try {
                 data = JSON.parse(refData);
             }
