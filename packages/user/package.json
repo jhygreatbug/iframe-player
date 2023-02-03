@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "@iframe-player/user",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "iframe player user",
   "main": "dist/index.js",
   "keywords": [
