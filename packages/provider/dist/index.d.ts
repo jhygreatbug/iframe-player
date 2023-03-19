@@ -8,12 +8,16 @@ declare const playerActions: {
     getCurrentTime(this: IframePlayerProvider): void;
     getMuted(this: IframePlayerProvider): void;
     getPresentationMode(this: IframePlayerProvider): void;
+    getPlayBackRate(this: IframePlayerProvider): void;
     canPlay(this: IframePlayerProvider): void;
     pause(this: IframePlayerProvider): void;
     play(this: IframePlayerProvider): void;
     ended(this: IframePlayerProvider): void;
     timeUpdate(this: IframePlayerProvider): void;
     volumeChange(this: IframePlayerProvider): void;
+    seeking(this: IframePlayerProvider): void;
+    seeked(this: IframePlayerProvider): void;
+    rateChange(this: IframePlayerProvider): void;
     presentationModeChanged(this: IframePlayerProvider): void;
     error(this: IframePlayerProvider, error: Error): void;
 };

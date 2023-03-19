@@ -12,6 +12,7 @@ export type TPlayerEventType =
 	| 'reply-get-current-time'
 	| 'reply-get-muted'
 	| 'reply-get-presentation-mode'
+	| 'reply-get-playbackRate'
 	| 'set-play'
 	// play-video为旧名称
 	| 'play-video'
@@ -25,6 +26,7 @@ export type TPlayerEventType =
 	| 'get-current-time'
 	| 'get-muted'
 	| 'get-presentation-mode'
+	| 'get-playbackRate'
 	| 'can-play'
 	| 'pause'
 	| 'play'
@@ -32,7 +34,10 @@ export type TPlayerEventType =
 	| 'time-update'
 	| 'volume-change'
 	| 'presentation-mode-changed'
-	| 'error';
+	| 'error'
+	| 'seeking'
+	| 'seeked'
+	| 'rate-change';
 
 export type TResponseEventType =
 	| 'reply-set-play'
@@ -40,6 +45,7 @@ export type TResponseEventType =
 	| 'reply-get-current-time'
 	| 'reply-get-muted'
 	| 'reply-get-presentation-mode'
+	| 'reply-get-playbackRate'
 	| 'can-play'
 	| 'pause'
 	| 'play'
@@ -47,7 +53,10 @@ export type TResponseEventType =
 	| 'time-update'
 	| 'volume-change'
 	| 'presentation-mode-changed'
-	| 'error';
+	| 'error'
+	| 'seeking'
+	| 'seeked'
+	| 'rate-change';
 
 export type TPlayerSetPlayEventData = IPlayerEventData<'set-play', null>;
 
@@ -101,6 +110,10 @@ export type TPlayerReplyGetPresentationModeData = IPlayerEventData<
 	{ presentationMode: TPresentationMode }
 >;
 
+export type TPlayGetPlaybackrateData = IPlayerEventData<'get-playbackRate', null>
+
+export type TPlayReplyGetPlaybackrateData = IPlayerEventData<'reply-get-playbackRate', { playbackRate: number }>;
+
 export type TPlayerCanPlayData = IPlayerEventData<'can-play', null>;
 
 export type TPlayerPauseData = IPlayerEventData<'pause', null>;
@@ -113,6 +126,12 @@ export type TPlayerTimeUpdateData = IPlayerEventData<
 	'time-update',
 	{ currentTime: number }
 >;
+
+export type TPlayerSeekingData = IPlayerEventData<'seeking', { currentTime: number }>;
+
+export type TPlayerSeekedData = IPlayerEventData<'seeked', { currentTime: number }>; 
+
+export type TPlayerRateChangeData = IPlayerEventData<'rate-change', { playbackRate: number }>
 
 export type TPlayerVolumeChangeData = IPlayerEventData<
 	'volume-change',
@@ -147,7 +166,12 @@ export type TPlayerEventData =
 	| TPlayerReplyGetDurationEventData
 	| TPlayerReplyGetCurrentTimeEventData
 	| TPlayerReplyGetPresentationModeData
-	| TPlayerErrorData;
+	| TPlayerErrorData
+	| TPlayerSeekingData
+	| TPlayerSeekedData
+	| TPlayerRateChangeData
+	| TPlayReplyGetPlaybackrateData
+	| TPlayGetPlaybackrateData;
 
 declare global {
 	// eslint-disable-next-line @typescript-eslint/naming-convention

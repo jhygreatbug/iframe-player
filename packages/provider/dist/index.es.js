@@ -126,6 +126,14 @@ var playerActions = {
             }
         });
     },
+    getPlayBackRate: function () {
+        this.postVideoMessage({
+            eventType: 'reply-get-playbackRate',
+            value: {
+                playbackRate: this.config.$video.playbackRate
+            }
+        });
+    },
     canPlay: function () {
         this.postVideoMessage({
             eventType: 'can-play',
@@ -164,6 +172,30 @@ var playerActions = {
             value: {
                 volume: this.config.$video.volume,
                 muted: this.config.$video.muted
+            }
+        });
+    },
+    seeking: function () {
+        this.postVideoMessage({
+            eventType: 'seeking',
+            value: {
+                currentTime: this.config.$video.currentTime
+            }
+        });
+    },
+    seeked: function () {
+        this.postVideoMessage({
+            eventType: 'seeked',
+            value: {
+                currentTime: this.config.$video.currentTime
+            }
+        });
+    },
+    rateChange: function () {
+        this.postVideoMessage({
+            eventType: 'rate-change',
+            value: {
+                playbackRate: this.config.$video.playbackRate
             }
         });
     },
@@ -224,10 +256,13 @@ var IframePlayerProvider = /** @class */ (function () {
             'ended',
             'timeUpdate',
             'volumeChange',
+            'seeking',
+            'seeked',
+            'rateChange',
             'presentationModeChanged',
         ];
         playerActionsKeys.forEach(function (eventType) {
-            $video.addEventListener(eventType.toLowerCase(), function () {
+            $video.addEventListener(eventType.toLowerCase(), function (ev) {
                 playerActions[eventType].call(_this);
             });
         });
@@ -275,6 +310,9 @@ var IframePlayerProvider = /** @class */ (function () {
                 case 'get-presentation-mode': {
                     _this.actions.getPresentationMode.call(_this);
                     break;
+                }
+                case 'get-playbackRate': {
+                    _this.actions.getPlayBackRate.call(_this);
                 }
             }
         }, false);

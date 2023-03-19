@@ -47,6 +47,7 @@ var IframePlayer = (function () {
         'reply-get-current-time',
         'reply-get-muted',
         'reply-get-presentation-mode',
+        'reply-get-playbackRate'
     ];
     // todo
     var messageEvents = [
@@ -58,6 +59,9 @@ var IframePlayer = (function () {
         'volume-change',
         'presentation-mode-changed',
         'error',
+        'seeking',
+        'seeked',
+        'rate-change'
     ];
     var defaultConfig = {
         autoPlay: false,
@@ -79,6 +83,7 @@ var IframePlayer = (function () {
             var timer = setTimeout(function () {
                 resolve(void 0);
             }, REPLY_TIMEOUT);
+            console.log('进入等待队列');
             instance.waitQueueMap["reply-get-" + attr].push(function (data) {
                 resolve(data);
                 clearTimeout(timer);
@@ -94,7 +99,6 @@ var IframePlayer = (function () {
             }
             catch (_b) { }
         }
-        // todo: 判断是哪个实例
         if (!isPlayerEventData(data)) {
             return;
         }
@@ -220,6 +224,9 @@ var IframePlayer = (function () {
         };
         IframePlayer.prototype.getPresentationMode = function () {
             return getAttr(this, 'presentation-mode');
+        };
+        IframePlayer.prototype.getPlaybackRate = function () {
+            return getAttr(this, 'playbackRate');
         };
         IframePlayer.prototype.consumer = function (eventType, value) {
             if (!(replyEvents.indexOf(eventType) >= 0)) {

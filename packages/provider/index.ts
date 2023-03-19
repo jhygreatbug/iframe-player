@@ -74,6 +74,16 @@ const playerActions = {
 			},
 		});
 	},
+
+	getPlayBackRate(this: IframePlayerProvider) {
+		this.postVideoMessage({
+			eventType: 'reply-get-playbackRate',
+			value: {
+				playbackRate: this.config.$video.playbackRate
+			}
+		})
+	},
+
 	canPlay(this: IframePlayerProvider) {
 		this.postVideoMessage({
 			eventType: 'can-play',
@@ -115,6 +125,34 @@ const playerActions = {
 			},
 		});
 	},
+
+	seeking(this: IframePlayerProvider) {
+		this.postVideoMessage({
+			eventType: 'seeking',
+			value: {
+				currentTime: this.config.$video.currentTime,
+			},
+		})
+	},
+
+	seeked(this: IframePlayerProvider) {
+		this.postVideoMessage({
+			eventType: 'seeked',
+			value: {
+				currentTime: this.config.$video.currentTime,
+			},
+		})
+	},
+
+	rateChange(this: IframePlayerProvider) {
+		this.postVideoMessage({
+			eventType: 'rate-change',
+			value: {
+				playbackRate: this.config.$video.playbackRate
+			}
+		})
+	},
+
 	presentationModeChanged(this: IframePlayerProvider) {
 		this.postVideoMessage({
 			eventType: 'presentation-mode-changed',
@@ -192,11 +230,14 @@ export default class IframePlayerProvider {
 			'ended',
 			'timeUpdate',
 			'volumeChange',
+			'seeking',
+			'seeked',
+			'rateChange',
 			'presentationModeChanged',
 		] as const;
 
 		playerActionsKeys.forEach(eventType => {
-			$video.addEventListener(eventType.toLowerCase(), () => {
+			$video.addEventListener(eventType.toLowerCase(), (ev) => {
 				playerActions[eventType].call(this);
 			});
 		});
@@ -249,6 +290,9 @@ export default class IframePlayerProvider {
 					case 'get-presentation-mode': {
 						this.actions.getPresentationMode.call(this);
 						break;
+					}
+					case 'get-playbackRate': {
+						this.actions.getPlayBackRate.call(this);
 					}
 					default:
 						break;
