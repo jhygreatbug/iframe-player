@@ -77,9 +77,10 @@ const playerActions = {
 
 	getPlayBackRate(this: IframePlayerProvider) {
 		this.postVideoMessage({
-			eventType: 'reply-get-playbackRate',
+			eventType: 'reply-get-playback-rate',
 			value: {
-				playbackRate: this.config.$video.playbackRate
+				playbackRate: this.config.$video.playbackRate,
+				currentTime: this.config.$video.currentTime,
 			}
 		})
 	},
@@ -148,7 +149,8 @@ const playerActions = {
 		this.postVideoMessage({
 			eventType: 'rate-change',
 			value: {
-				playbackRate: this.config.$video.playbackRate
+				playbackRate: this.config.$video.playbackRate,
+				currentTime: this.config.$video.currentTime,
 			}
 		})
 	},
@@ -291,7 +293,7 @@ export default class IframePlayerProvider {
 						this.actions.getPresentationMode.call(this);
 						break;
 					}
-					case 'get-playbackRate': {
+					case 'get-playback-rate': {
 						this.actions.getPlayBackRate.call(this);
 					}
 					default:

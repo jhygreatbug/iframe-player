@@ -130,9 +130,10 @@ var playerActions = {
     },
     getPlayBackRate: function () {
         this.postVideoMessage({
-            eventType: 'reply-get-playbackRate',
+            eventType: 'reply-get-playback-rate',
             value: {
-                playbackRate: this.config.$video.playbackRate
+                playbackRate: this.config.$video.playbackRate,
+                currentTime: this.config.$video.currentTime
             }
         });
     },
@@ -197,7 +198,8 @@ var playerActions = {
         this.postVideoMessage({
             eventType: 'rate-change',
             value: {
-                playbackRate: this.config.$video.playbackRate
+                playbackRate: this.config.$video.playbackRate,
+                currentTime: this.config.$video.currentTime
             }
         });
     },
@@ -313,7 +315,7 @@ var IframePlayerProvider = /** @class */ (function () {
                     _this.actions.getPresentationMode.call(_this);
                     break;
                 }
-                case 'get-playbackRate': {
+                case 'get-playback-rate': {
                     _this.actions.getPlayBackRate.call(_this);
                 }
             }

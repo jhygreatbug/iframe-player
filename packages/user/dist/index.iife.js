@@ -47,7 +47,7 @@ var IframePlayer = (function () {
         'reply-get-current-time',
         'reply-get-muted',
         'reply-get-presentation-mode',
-        'reply-get-playbackRate'
+        'reply-get-playback-rate'
     ];
     // todo
     var messageEvents = [
@@ -83,7 +83,6 @@ var IframePlayer = (function () {
             var timer = setTimeout(function () {
                 resolve(void 0);
             }, REPLY_TIMEOUT);
-            console.log('进入等待队列');
             instance.waitQueueMap["reply-get-" + attr].push(function (data) {
                 resolve(data);
                 clearTimeout(timer);

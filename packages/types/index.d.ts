@@ -12,7 +12,7 @@ export type TPlayerEventType =
 	| 'reply-get-current-time'
 	| 'reply-get-muted'
 	| 'reply-get-presentation-mode'
-	| 'reply-get-playbackRate'
+	| 'reply-get-playback-rate'
 	| 'set-play'
 	// play-video为旧名称
 	| 'play-video'
@@ -26,7 +26,7 @@ export type TPlayerEventType =
 	| 'get-current-time'
 	| 'get-muted'
 	| 'get-presentation-mode'
-	| 'get-playbackRate'
+	| 'get-playback-rate'
 	| 'can-play'
 	| 'pause'
 	| 'play'
@@ -45,7 +45,7 @@ export type TResponseEventType =
 	| 'reply-get-current-time'
 	| 'reply-get-muted'
 	| 'reply-get-presentation-mode'
-	| 'reply-get-playbackRate'
+	| 'reply-get-playback-rate'
 	| 'can-play'
 	| 'pause'
 	| 'play'
@@ -110,9 +110,9 @@ export type TPlayerReplyGetPresentationModeData = IPlayerEventData<
 	{ presentationMode: TPresentationMode }
 >;
 
-export type TPlayGetPlaybackrateData = IPlayerEventData<'get-playbackRate', null>
+export type TPlayGetPlaybackrateData = IPlayerEventData<'get-playback-rate', null>
 
-export type TPlayReplyGetPlaybackrateData = IPlayerEventData<'reply-get-playbackRate', { playbackRate: number }>;
+export type TPlayReplyGetPlaybackrateData = IPlayerEventData<'reply-get-playback-rate', { playbackRate: number, currentTime: number }>;
 
 export type TPlayerCanPlayData = IPlayerEventData<'can-play', null>;
 
@@ -131,7 +131,7 @@ export type TPlayerSeekingData = IPlayerEventData<'seeking', { currentTime: numb
 
 export type TPlayerSeekedData = IPlayerEventData<'seeked', { currentTime: number }>; 
 
-export type TPlayerRateChangeData = IPlayerEventData<'rate-change', { playbackRate: number }>
+export type TPlayerRateChangeData = IPlayerEventData<'rate-change', { playbackRate: number, currentTime: number }>
 
 export type TPlayerVolumeChangeData = IPlayerEventData<
 	'volume-change',
