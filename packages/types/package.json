@@ -1,7 +1,7 @@
 {
   "private": false,
   "name": "@iframe-player/types",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "iframe player types",
   "main": "index.d.ts",
   "repository": "git@github.com:jhygreatbug/iframe-player.git",
